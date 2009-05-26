@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html" charset="UTF-8" />      
+
+    </head>
+    <body>
+    	<style type='text/css'><!--
+           <%= stylesheet %>
+         -->
+        </style>
+        <div class='main'>
+	     <dl class='meta'>
+	        <dt>Revision :</dt> <dd><%= number %></dd>
+            <dt>Author   :</dt> <dd><%= author %></dd>
+            <dt>Date     :</dt> <dd><%= date %></dd>
+         </dl>	     
+            <h3>Log Message</h3>	       
+            <div class='comment'>
+		        <p>
+	                   <%= message %>
+				</p>
+            </div>
+            <div class='propset'>
+            	<%= display_prop_changes(props_modified) %>
+        	</div>
+            <div class='resume' >
+              <%= files_to_html('Added Paths'   , added    , number ,'A') %>
+              <%= files_to_html('Modified Paths', modified , number ,'U') %>
+              <%= files_to_html('Removed Paths' , removed  , number ,'R') %>
+            </div>
+            <div class='patch'>
+              <h3>Diff r<%= number %></h3>
+              <%= display_files_diff(patch) %>
+            </div>
+        </div>
+    </body>
+</html>

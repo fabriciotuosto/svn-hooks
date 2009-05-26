@@ -1,0 +1,133 @@
+# Where it leaves the log
+pre_commit_log_file: /tmp/pre-commit.log
+# Log patterns
+log_pattern= [%1] %d :: %.15m
+
+# Could be :sendmail or :smtp is the way in wich the mails will be
+# delivered
+delivery_method: :sendmail
+   
+# Here are both mailer options either by smtp or sendmail
+# at work we use sendmail but by commenting sendimal and configuring
+# the smtp this will also work
+#mailer:
+#    :address:
+#    :port:
+#    :user_name:
+#    :password:
+#    :authentication: :login
+mailer:
+   :location: /usr/sbin/sendmail
+   :arguments: -i -t
+   
+# Emails where post-commit mail will be delivered
+# example the "-" is necessary in order to denote a collection
+mails:  
+   #- xxx@yyy.com
+   #- yyy@xxx.com
+
+
+# Could be :in_mail  or :viewvc 
+# this way if there is no viewvc configuration in the current enviroment
+# diff of file are shown by click on the file list in the mail below it
+mail_diff: :in_mail
+
+# Root folder for the repository
+# this information is necesary in order 
+# to puts the link in the post-commit mail
+# if mail_diff is configured in viewvc
+# to show the diff in a human readable way
+root: $root
+
+# View vc ip configuration
+viewvc_ip: 192.168.148.60
+   
+# where the svnlook command is hold
+svnlook: /usr/bin/svnlook
+
+# Where the diff command is hold
+diff: /usr/bin/diff
+
+svn_url: http://localhost/usvn/svn
+
+# Where the diff command is hold
+svn: /usr/bin/svn
+
+# Secret keyword to allowed commit when it shouldn't
+force: forced!
+
+# For now only jira and trac are suported
+# values = jira , trac
+tracker: jira
+
+#Configuration to connect Jira
+jira_configuration: 
+          url:          http://localhost/jira
+          # set this to a user with priveleges to the projects in the repository
+          # if the user has no privilige over all the projects in the svn repository
+          # some features where not be available
+          username:     ftuost
+          password:     ftuost00
+          # Next field should not be modified
+          wsdl_version: 2
+
+# Configuration by project in the current repository
+projects:
+        # project id name
+        - name: SDM
+        # Folder in the svn repository that holds this project
+          folder: jmx-portlet
+        #Jira prefix to the issues of the project
+          jira_prefix: SDM
+        # project id name
+
+# Jira statuses where commit is not going to be allowed        
+closed_status:
+           # Resolved
+           - 5
+           # Closed
+           - 6
+           # Wait
+           - 10000
+           #Solicitado
+           - 10001
+           #Analizado
+           - 10002
+           #Estimado
+           - 10003
+           #En Proceso
+           - 10004
+           # Rechazado
+           - 10005
+
+# Tells the program wich features should be enable
+# there are only enable if the value is true
+# false eitherway
+features_enable:
+         # Add a comment to the Jira issue informing who and when make the commit
+         add_comment:            true
+         # Validate the existance of the Jira issue
+         validate_jira_issue:    true
+         # Validates that the author of the commit 
+         validate_author:        true
+         # Validates the existance of a valid jira issue key in the commit log
+         validate_issue_exist:   true
+         # Validates that the issue is in a state that allowed the commit
+         validate_issue_status:  true
+         # Validates that the issue belongs to the project that is configured
+         validate_issue_project: true
+         # Allow to commit without any validation if the magic
+         # word is in the commit message
+         force_commit:           true
+         # Allow multple issues con commit log
+         validate_multiple_issues: true
+         
+force_commit_mails:
+   # Emails where that will advise the administrator
+   # that a force commit was realize in order to pay attention
+   # Example
+   # - xxx@yyy.com
+   # - yyy@xxx.com
+
+# Directory where the postcommit files are read from
+html_files_path: /media/KINGSTON/JetspeedI18N_Migration/lib

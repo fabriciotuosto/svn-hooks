@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<!--  
+    Test file to see the layout and see how the output file will be like
+-->        
+<html>
+    <head>
+	    
+    </head>
+   <body>
+   		<link rel="stylesheet" href="post-commit.css" type="text/css" />
+        <div class='main'>
+	     <dl class='meta'>
+	        <dt>Revision :</dt> <dd>8356</dd>
+                <dt>Author   :</dt> <dd>vcufre</dd>
+                <dt>Date     :</dt> <dd>2007-08-08 07:28:49 -0300 (Wed, 08 Aug 2007)</dd>
+             </dl>
+            <h3>Log Message</h3>
+            <div class='comment'>
+	        <p>
+                   elips-13912
+Confirmacion en la pantallas de JMX invoker
+Se modificaron los psml, este cambio esta asociado al cambio de nommbre del sca-jmxportlet por jmx-portlet
+		</p>
+            </div>
+            <div class='resume' >
+
+               <h3>Modified Paths</h3>
+<div class='files'>
+ <div class='file'>
+    <a href=http://192.168.148.60/viewvc/frameworks/jmx-portlet/trunk/src/main/java/ar/com/sibs/commons/portlet/jmx/JMXInvokerPortlet.java?root=frameworks&pathrev=8356&view=diff&r1=8356&r2=8355&diff_format=h>frameworks/jmx-portlet/trunk/src/main/java/ar/com/sibs/commons/portlet/jmx/JMXInvokerPortlet.java</a><br />
+</div>
+ <div class='file'>
+    <a href=http://192.168.148.60/viewvc/frameworks/jmx-portlet/trunk/src/main/webapp/WEB-INF/jsp/invoke/view.jsp?root=frameworks&pathrev=8356&view=diff&r1=8356&r2=8355&diff_format=h>frameworks/jmx-portlet/trunk/src/main/webapp/WEB-INF/jsp/invoke/view.jsp</a><br />
+</div>
+</div>
+
+
+            </div>
+            <div class='patch'>
+              <h3>Diff</h3>
+              <h4>Modified: frameworks/jmx-portlet/trunk/src/main/java/ar/com/sibs/commons/portlet/jmx/JMXInvokerPortlet.java (8355 => 8356)</h4>
+<span class='lines'>@@ -36,7 +36,6 @@</span>
+<span class='cx'>  */
+
+ public class JMXInvokerPortlet extends GenericPortlet {
+
+
+</span>
+<span class='del'> &nbsp;
+</span>
+<span class='cx'> 	private static Object[] PARAMS = new Object[0];
+
+
+
+ 	private static String[] SIGNATURE = new String[0];
+</span>
+<span class='lines'>@@ -115,7 +114,7 @@
+</span>
+<span class='cx'> 	 */
+
+ 	public void processAction(ActionRequest req, ActionResponse res)
+
+ 			throws PortletException, java.io.IOException {
+</span>
+<span class='del'>	//log.info(&quot;updating jmx invoker&quot;);
+</span>
+<span class='ins'>	// log.info(&quot;updating jmx invoker&quot;);
+</span>
+<span class='cx'> 		if (req.getParameter(&quot;save&quot;) != null) {
+
+ 			PortletPreferences prefs = req.getPreferences();
+
+<span class='cx'> 			PreferenceKey[] prefsEnum = PreferenceKey.values();
+</span>
+<span class='lines'>@@ -127,6 +126,7 @@</span>
+<span class='cx'> 		}
+
+
+
+ 		if (req.getParameter(&quot;invoke&quot;) != null) {
+</span>
+<span class='ins'>		Object ret = &quot;&quot;;
+</span>
+<span class='cx'> 			try {
+
+				// preferencias
+
+ 				PortletPreferences prefs = req.getPreferences();
+</span>
+<span class='lines'>@@ -138,25 +138,26 @@</span>
+<span class='cx'> 				String targetOperation = prefs.getValue(
+
+ 						PreferenceKey.PREF_TARGET_OPERATION.getName(), null);
+
+
+</span>
+<span class='del'>			/*log.info(&quot;invoking mbean &quot; + targetNameStr + &quot; operation &quot;
+
+					+ targetOperation);*/
+
+
+</span>
+<span class='cx'> 				// buscar el server
+
+			String jndiProps = prefs.getValue(PreferenceKey.PREF_JNDI
+
+					.getName(), null);
+
+			if (jndiProps == null || jndiProps.trim().length() == 0) {
+
+ 					// invocar
+</span>
+<span class='del'>				getServer().invoke(targetName, targetOperation, PARAMS,
+						SIGNATURE);
+</span>
+<span class='ins'>				ret = getServer().invoke(targetName, targetOperation,
+
+						PARAMS, SIGNATURE);
+</span>
+<span class='cx'> 				} else {
+
+ 					// invocar
+</span>
+<span class='del'>				getServer(jndiProps).invoke(targetName, targetOperation,
+
+						PARAMS, SIGNATURE);
+</span>
+<span class='ins'>				ret = getServer(jndiProps).invoke(targetName,
+
+						targetOperation, PARAMS, SIGNATURE);
+</span>
+<span class='cx'> 				}
+</span>
+<span class='del'>			res.setRenderParameter(&quot;msg&quot;, &quot;Proceso invocado exitosamente.&quot; + &quot;. &quot;
+
+					+ DF.format(Calendar.getInstance().getTime()));
+</span>
+<span class='ins'>			ret = (ret == null || ret.equals(&quot;&quot;) ? &quot;Proceso invocado exitosamente.&quot;
+
+					: ret);
+</span>
+<span class='ins'>			ret = ret.toString().replaceAll(&quot;null; CausedByException is:&quot;,
+
+					&quot;&quot;);
+</span>
+<span class='ins'>
+
+			res.setRenderParameter(&quot;msg&quot;, ret.toString());
+</span>
+<span class='cx'> 			} catch (Exception e) {
+</span>
+<span class='del'>			//log.error(&quot;unable to take a sample. &quot;, e);
+</span>
+<span class='ins'>			// log.error(&quot;unable to take a sample. &quot;, e);
+</span>
+<span class='cx'> 				res.setRenderParameter(&quot;msg&quot;, &quot;error al ejecutar. &quot;
+
+ 						+ e.getMessage() + &quot;. &quot;
+
+ 						+ DF.format(Calendar.getInstance().getTime()));
+</span>
+<span class='lines'>@@ -165,12 +166,12 @@</span>
+<span class='cx'> 		}
+
+
+
+ 	}
+</span>
+<span class='del'>
+  &nbsp;
+</span>
+<span class='ins'>
+</span>
+<span class='cx'> 	private String quitarNull(String valor) {
+</span>
+<span class='del'>	String newValor = (valor == null ? &quot;&quot;: valor);
+</span>
+<span class='ins'>	String newValor = (valor == null ? &quot;&quot; : valor);
+</span>
+<span class='cx'> 		newValor = (valor.equalsIgnoreCase(&quot;null&quot;) ? &quot;&quot; : valor);
+
+ 		return newValor;
+</span>
+<span class='del'>
+  &nbsp;
+</span>
+<span class='ins'>
+  &nbsp;
+</span>
+<span class='cx'> 	}
+
+
+
+ }
+</span>
+<span class='cx'>
+  &nbsp;
+</span>
+<h4>Modified: frameworks/jmx-portlet/trunk/src/main/webapp/WEB-INF/jsp/invoke/view.jsp (8355 => 8356)</h4>
+<span class='lines'>@@ -2,11 +2,11 @@
+</span>
+<span class='cx'> &lt;%@ taglib uri=&quot;http://java.sun.com/jstl/core&quot; prefix=&quot;c&quot; %&gt;
+
+ &lt;portlet:defineObjects/&gt;
+
+ &lt;script type=&quot;text/javascript&quot;&gt;
+</span>
+<span class='del'>function confirmar() {
+</span>
+<span class='ins'>function confirmar&lt;%=renderRequest.getPreferences().getValue(&quot;sibs.jmx.target.operation&quot;, null)%&gt;() {
+</span>
+<span class='cx'> 		msg = '&lt;%=renderRequest.getPreferences().getValue(&quot;sibs.jmx.target.confirm&quot;, null)%&gt;'
+
+
+
+ 		if(window.confirm(msg)) {
+</span>
+<span class='del'>		portletJmx.submit();
+</span>
+<span class='ins'>		portletJmx&lt;%=renderRequest.getPreferences().getValue(&quot;sibs.jmx.target.operation&quot;, null)%&gt;.submit();
+</span>
+<span class='cx'> 		}
+
+ 	}
+</span>
+<span class='cx'> &lt;/script&gt; </span>
+<span class='lines'>@@ -29,7 +29,7 @@</span>
+<span class='cx'> 	renderRequest.getPreferences().getValue(&quot;sibs.jmx.description&quot;, null)
+
+ %&gt;
+
+</span>
+<span class='del'>form name=&quot;portletJmx&quot; action=&quot;&lt;portlet:actionURL /&gt;&quot;&gt;
+</span>
+<span class='ins'>form name=&quot;portletJmx&lt;%=renderRequest.getPreferences().getValue(&quot;sibs.jmx.target.operation&quot;, null)%&gt;&quot; action=&quot;&lt;portlet:actionURL /&gt;&quot;&gt;
+</span>
+<span class='cx'> 	&lt;input type=&quot;hidden&quot; name=&quot;invoke&quot; value=&quot;true&quot;&gt;
+
+ 	&lt;%
+
+ 	if(renderRequest.getPreferences().getValue(&quot;sibs.jmx.target.confirm&quot;, null) == null ||
+</span>
+<span class='lines'>@@ -40,7 +40,7 @@</span>
+<span class='cx'> 	&lt;%
+
+ 	} else {
+
+ 	%&gt;
+</span>
+<span class='del'>	&lt;input type=&quot;button&quot; value=&quot;Invocar&quot; onclick=&quot;confirmar()&quot;&gt;
+</span>
+<span class='ins'>	&lt;input type=&quot;button&quot; value=&quot;Invocar&quot; onclick='confirmar&lt;%=renderRequest.getPreferences().getValue(&quot;sibs.jmx.target.operation&quot;, null)%&gt;()'&gt;
+</span>
+<span class='cx'> 	&lt;%} %&gt;
+
+ &lt;/form&gt;
+
+</span>
+
+            </div>
+        </div>
+    </body>
+</html>

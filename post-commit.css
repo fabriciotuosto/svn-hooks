@@ -1,0 +1,95 @@
+.main {
+  font : 10pt verdana;
+  background: white;
+  width: 95%
+}
+.main h3 {
+  margin: 15px 0px 5px 0px;
+}
+dl.meta {
+            border: 1px #006 solid;
+            background: #369;
+            padding: 6px;
+            color: #fff;
+}
+dl.meta dt {
+            float: left;
+            width: 6em;
+            font-weight: bold;
+}
+.description {
+	font : 10pt verdana;
+	background: white;
+	width: 95%
+}
+.description h3 {
+  	margin: 15px 0px 5px 0px;
+  	font : 10pt verdana;
+        font-weight: bold;
+}
+.details h3{
+	font : 15pt arial;
+}
+.comment {
+  border:solid #FFAA00 1.0pt;
+  background:#FFFFCC;
+  font : 10pt verdana;
+}
+
+.files {
+	border: 1px solid #dddddd;
+	padding: 5px;
+	background: #eeeeff;
+}
+
+.files a{
+
+}
+.patch h4{
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size:10pt;
+    padding:8px;
+    background:#369;
+    color:#fff;
+    margin:0;
+  }
+.patch .propset h4, .patch .binary h4 {
+    margin:0;
+ }
+.patch .pre {
+  padding:0;
+  line-height:1.2em;
+  margin:0;
+}
+.patch .diff {
+  width:100%;
+  background:#eee;
+  padding: 0 0 10px 0;
+  overflow:auto;
+}
+.patch .propset .diff, .patch .binary .diff  {
+    padding:10px 0;
+ }
+.patch span {
+    display:block;
+    padding:0 10px;
+ }
+.patch .modfile, .patch .addfile, .patch .delfile, .patch .propset,.patch .binary, .patch .copfile {
+    border:1px solid #ccc;
+    margin:10px 0;
+  }
+.patch .ins {
+    background:#dfd;
+    text-decoration:none;
+    display:block;
+    padding:0 10px;
+}
+.patch .del {
+    background:#fdd;
+    text-decoration:none;
+    display:block;
+    padding:0 10px;
+  }
+.patch .lines, .info {
+    color:#888;background:#fff;
+}
